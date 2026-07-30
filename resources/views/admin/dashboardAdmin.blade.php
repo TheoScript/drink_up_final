@@ -245,7 +245,7 @@ new Chart(document.getElementById("lineChart"), {
     datasets: [{
       label: "Consumo (L)",
       data: @json($dadosGraficoLinha),   // Recebe os valores em litros
-      borderColor: "#010102",
+      borderColor: "#2563eb",
       backgroundColor: "rgba(37,99,235,0.1)",
       fill: true,
       tension: 0.4
@@ -256,8 +256,14 @@ new Chart(document.getElementById("lineChart"), {
     maintainAspectRatio: false,
     scales:{
       y:{
-        min:0,  //Forçar inicio do grafico como zero
-        beginAtZero: true
+        min:0,  // Forçar inicio do grafico como zero
+        beginAtZero: true,
+        
+        // --- CÓDIGO INSERIDO AQUI ---
+        grid: {
+          color: "rgba(255, 255, 255, 0.07)", // Define a cor das linhas de grade como branco
+          borderColor: "rgba(255, 255, 255, 0.07)" // (Opcional) Define a cor da linha principal do eixo Y como branco
+        },
       }
     }
   }

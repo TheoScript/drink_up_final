@@ -176,7 +176,7 @@
       <h2>DrinkUp Admin</h2>
       <a href="{{ route('admin.dashboard') }}">Dashboard</a>
       <a href="{{ route('admin.usuario') }}">Usuários</a>
-      <a href="#">Bebedouros</a>
+      <a href="{{ route('admin.bebedouros') }}">Bebedouros</a>
       <a href="{{ route('admin.relatorios') }}">Relatórios</a>
       <a href="{{ route('admin.perfil') }}">Meu Perfil</a>
       <a href="{{ route('admin.configuracoes') }}">Configurações</a>

@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\PerfilAdminController;
 use App\Http\Controllers\Admin\ConfiguracaoController;
 use App\Http\Controllers\Admin\RelatorioController;
 use App\Http\Controllers\Admin\UsuarioAdminController;
+use App\Http\Controllers\Admin\BebedourosAdminController;
 
 
 // =======================================================
@@ -81,4 +82,6 @@ Route::prefix('admin')->middleware([AdminAutenticado::class])->name('admin.')->g
     // ROTA PARA O GERENCIAMENTO DE USUÁRIOS
     Route::get('usuario', [UsuarioAdminController::class, 'index'])->name('usuario');
 
+    //Rota para Gerenciamento de Bebedouros
+    Route::get('/bebedouros', [BebedourosAdminController::class, 'index'])->name('bebedouros');
 });

@@ -179,7 +179,17 @@ new Chart(document.getElementById("lineChart"), {
       fill: false
     }]
   },
-  options: { responsive: true, maintainAspectRatio: false }
+  options: { 
+    responsive: true, 
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        grid: {
+          color: "rgba(255, 255, 255, 0.07)" 
+        }
+      }
+    }
+  }
 });
 
 new Chart(document.getElementById("pieChart"), {
