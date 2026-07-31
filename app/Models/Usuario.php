@@ -17,6 +17,7 @@ class Usuario extends Model
         'peso',
         'meta_diaria',
         'nivel', // Adicionada para criar o perfil de administrador
+        'rfid_uid', // Adicionada para integração com bebedouro
     ];
 
     protected $hidden = ['senha'];
