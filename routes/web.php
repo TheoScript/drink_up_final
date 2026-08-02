@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
 
 // --- IMPORTAÇÕES DOS CONTROLLERS DO USUÁRIO ---
 use App\Http\Controllers\AuthController;
@@ -85,17 +84,4 @@ Route::prefix('admin')->middleware([AdminAutenticado::class])->name('admin.')->g
 
     //Rota para Gerenciamento de Bebedouros
     Route::get('/bebedouros', [BebedourosAdminController::class, 'index'])->name('bebedouros');
-});
-
-// =======================================================
-// ROTAS DO PAINEL ADMINISTRATIVO (DRINKUP ADMIN)
-// =======================================================
-
-Route::get('/popular-banco-secreto', function () {
-    try {
-        Artisan::call('db:seed', ['--force' => true]);
-        return 'Banco de dados alimentado com sucesso!';
-    } catch (\Exception $e) {
-        return 'Erro: ' . $e->getMessage();
-    }
 });
