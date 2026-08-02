@@ -15,7 +15,7 @@ WORKDIR /app
 COPY . .
 
 # Instalar as dependências do Laravel
-RUN composer install --no-dev --optimize-autoloader
+RUN COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev --optimize-autoloader --ignore-platform-reqs
 
 # Rodar as migrations e iniciar o servidor na porta do Render
 CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT
