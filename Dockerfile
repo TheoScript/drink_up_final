@@ -17,5 +17,5 @@ COPY . .
 # Instalar as dependências do Laravel
 RUN composer install --no-dev --optimize-autoloader
 
-# Rodar as migrations, seeders e iniciar o servidor na porta do Render
-CMD php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=$PORT
+# Rodar as migrations e iniciar o servidor na porta do Render
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT
