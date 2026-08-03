@@ -34,7 +34,7 @@ class UsuarioAdminController extends Controller
        $dadosUsuarios = [
         // Pega todos os usuários criados a partir das 00:00:00 de hoje no fuso de SP
         'cadastrados_hoje' => Usuario::where('created_at', '>=', now()->startOfDay())->count(),
-        'acessos_iot'      => Usuario::where('acesso_iot', true)->count(),
+        'acessos_iot' => Usuario::whereNotNull('rfid_uid')->count(),
 ];
 
         // Retorna para a view do admin (Ajuste o caminho se sua pasta de views for diferente)
