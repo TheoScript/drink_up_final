@@ -127,14 +127,12 @@
   <div class="grid grid-2" style="margin-bottom: 24px;">
     <div class="card">
       <div class="metric-title">Cadastrados Hoje</div>
-      <!-- ✅ Correção 1: Ajustado para $dadosUsuarios -->
       <div class="metric-value">{{ $dadosUsuarios['cadastrados_hoje'] ?? 0 }}</div>
       <div class="metric-delta" style="color:var(--muted)">Usuários registrados hoje</div>
     </div>
 
     <div class="card">
       <div class="metric-title">Acesso ao Bebedouro IoT</div>
-      <!-- ✅ Correção 1: Ajustado para $dadosUsuarios -->
       <div class="metric-value">{{ $dadosUsuarios['acessos_iot'] ?? 0 }}</div>
       <div class="metric-delta" style="color:var(--muted)">Total com cartão RFID cadastrado</div>
     </div>
@@ -178,7 +176,6 @@
             <td>{{ $user->nome }}</td>
             <td>{{ \Carbon\Carbon::parse($user->created_at)->format('d/m/Y - H:i') }}</td>
             <td>
-              <!-- ✅ Correção 2: Verifica diretamente se rfid_uid possui valor -->
               @if($user->rfid_uid)
                 <span class="tag tag-success">Habilitado</span>
               @else
@@ -205,16 +202,17 @@
               Nenhum usuário encontrado na pesquisa.
             </td>
           </tr>
-          @empty
           @endforelse
         </tbody>
       </table>
     </div>
     
     <!-- PAGINAÇÃO -->
-    <div style="margin-top: 15px;">
-      {{ $usuarios->links() }}
-    </div>
+    @if(method_exists($usuarios, 'links'))
+      <div style="margin-top: 15px;">
+        {{ $usuarios->links() }}
+      </div>
+    @endif
 
   </div>
 
