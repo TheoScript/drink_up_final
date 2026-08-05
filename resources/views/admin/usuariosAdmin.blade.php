@@ -15,7 +15,7 @@
   --warning: #f59e0b;
   --danger: #dc2626;
   --danger-hover: #b91c1c;
-  --card: #0f172a; /* Assumindo um fundo escuro com base nas cores de texto */
+  --card: #0f172a;
   --input-bg: #1e293b;
 }
 
@@ -35,25 +35,12 @@
   gap: 15px;
 }
 
-.title-dash {
-  font-size: 28px;
-  font-weight: 700;
-}
-
-.subtitle {
-  color: var(--muted);
-  font-size: 14px;
-}
+.title-dash { font-size: 28px; font-weight: 700; }
+.subtitle { color: var(--muted); font-size: 14px; }
 
 /* GRID E CARDS */
-.grid {
-  display: grid;
-  gap: 20px;
-}
-
-.grid-2 {
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}
+.grid { display: grid; gap: 20px; }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 
 .card {
   background: var(--card);
@@ -63,23 +50,11 @@
   box-shadow: 0 4px 10px rgba(0,0,0,0.03);
 }
 
-.metric-title {
-  font-size: 13px;
-  color: var(--muted);
-}
-
-.metric-value {
-  font-size: 26px;
-  font-weight: 700;
-  margin-top: 6px;
-}
+.metric-title { font-size: 13px; color: var(--muted); }
+.metric-value { font-size: 26px; font-weight: 700; margin-top: 6px; }
 
 /* SEARCH BAR */
-.search-container {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
+.search-container { display: flex; gap: 10px; margin-bottom: 20px; }
 
 .search-input {
   flex: 1;
@@ -91,10 +66,7 @@
   font-size: 14px;
 }
 
-.search-input:focus {
-  outline: none;
-  border-color: var(--primary);
-}
+.search-input:focus { outline: none; border-color: var(--primary); }
 
 /* BOTÕES */
 .btn {
@@ -114,60 +86,26 @@
 
 .btn-primary { background: var(--primary); }
 .btn-primary:hover { background: var(--primary-hover); }
-
 .btn-warning { background: var(--warning); color: #000; }
 .btn-warning:hover { opacity: 0.9; }
-
 .btn-danger { background: var(--danger); }
 .btn-danger:hover { background: var(--danger-hover); }
-
-.btn-sm {
-  padding: 6px 12px;
-  font-size: 12px;
-}
+.btn-sm { padding: 6px 12px; font-size: 12px; }
 
 /* TABELA */
-.table-container {
-  overflow-x: auto;
-}
-
-.table-dash {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-}
-
-.table-dash th, .table-dash td {
-  padding: 12px 15px;
-  border-bottom: 1px solid var(--border);
-}
-
-.table-dash th {
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.table-dash td {
-  font-size: 14px;
-}
+.table-container { overflow-x: auto; }
+.table-dash { width: 100%; border-collapse: collapse; text-align: left; }
+.table-dash th, .table-dash td { padding: 12px 15px; border-bottom: 1px solid var(--border); }
+.table-dash th { color: var(--muted); font-size: 13px; font-weight: 600; }
+.table-dash td { font-size: 14px; }
 
 /* STATUS TAGS */
-.tag {
-  padding: 4px 8px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 600;
-}
-
+.tag { padding: 4px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
 .tag-success { background: rgba(22, 163, 74, 0.2); color: var(--success); }
 .tag-danger { background: rgba(220, 38, 38, 0.2); color: var(--danger); }
 
 /* AÇÕES DA TABELA */
-.actions {
-  display: flex;
-  gap: 8px;
-}
+.actions { display: flex; gap: 8px; }
 
 @media(max-width:900px){
   .header-dash { flex-direction: column; align-items: flex-start; }
@@ -189,14 +127,16 @@
   <div class="grid grid-2" style="margin-bottom: 24px;">
     <div class="card">
       <div class="metric-title">Cadastrados Hoje</div>
-      <div class="metric-value">{{ $dadosUsers['cadastrados_hoje'] ?? 0 }}</div>
-      <div class="metric-delta" style="color:var(--muted)">Usuários registrados nas últimas 24h</div>
+      <!-- ✅ Correção 1: Ajustado para $dadosUsuarios -->
+      <div class="metric-value">{{ $dadosUsuarios['cadastrados_hoje'] ?? 0 }}</div>
+      <div class="metric-delta" style="color:var(--muted)">Usuários registrados hoje</div>
     </div>
 
     <div class="card">
       <div class="metric-title">Acesso ao Bebedouro IoT</div>
-      <div class="metric-value">{{ $dadosUsers['acessos_iot'] ?? 0 }}</div>
-      <div class="metric-delta" style="color:var(--muted)">Total de usuários habilitados na rede</div>
+      <!-- ✅ Correção 1: Ajustado para $dadosUsuarios -->
+      <div class="metric-value">{{ $dadosUsuarios['acessos_iot'] ?? 0 }}</div>
+      <div class="metric-delta" style="color:var(--muted)">Total com cartão RFID cadastrado</div>
     </div>
   </div>
 
@@ -220,7 +160,7 @@
 
     <!-- TABELA DE USUÁRIOS -->
     <div class="table-container">
-    <div class="metric-title">Tabela de Usuários</div>
+      <div class="metric-title" style="margin-bottom: 12px;">Tabela de Usuários</div>
       <table class="table-dash">
         <thead>
           <tr>
@@ -238,10 +178,11 @@
             <td>{{ $user->nome }}</td>
             <td>{{ \Carbon\Carbon::parse($user->created_at)->format('d/m/Y - H:i') }}</td>
             <td>
-              @if($user->acesso_iot)
+              <!-- ✅ Correção 2: Verifica diretamente se rfid_uid possui valor -->
+              @if($user->rfid_uid)
                 <span class="tag tag-success">Habilitado</span>
               @else
-                <span class="tag tag-danger">Bloqueado</span>
+                <span class="tag tag-danger">Sem RFID</span>
               @endif
             </td>
             <td>
@@ -264,12 +205,13 @@
               Nenhum usuário encontrado na pesquisa.
             </td>
           </tr>
+          @empty
           @endforelse
         </tbody>
       </table>
     </div>
     
-    <!-- PAGINAÇÃO (Se estiver usando $usuarios->paginate() no controller) -->
+    <!-- PAGINAÇÃO -->
     <div style="margin-top: 15px;">
       {{ $usuarios->links() }}
     </div>
