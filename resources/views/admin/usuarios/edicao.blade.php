@@ -152,7 +152,7 @@
         <!-- Senha -->
         <div class="form-group">
           <label class="form-label">Nova Senha</label>
-          <input type="password" name="senha" class="form-control" placeholder="Digite apenas se quiser alterar">
+          <input type="password" id="senha" name="senha" class="form-control" placeholder="Digite apenas se quiser alterar">
           <div class="form-text">Deixe em branco para manter a senha atual.</div>
         </div>
 
