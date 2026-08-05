@@ -19,12 +19,17 @@ class UsuarioAdminController extends Controller
         // Lógica de pesquisa por Nome ou ID
         if ($request->filled('search')) {
             $search = $request->input('search');
-            
+    
             $query->where(function($q) use ($search) {
-                $q->where('nome', 'like', "%{$search}%")
-                  ->orWhere('id', $search);
-            });
-        }
+            // 1. Sempre pesquisa pelo nome
+            $q->where('nome', 'like', "%{$search}%");
+        
+            // 2. Só tenta pesquisar pelo ID se o texto digitado for um número
+            if (is_numeric($search)) {
+                $q->orWhere('id', $search);
+            }
+        });
+    }
 
         // Paginação mantendo os parâmetros da URL (para a busca não se perder ao trocar de página)
         $usuarios = $query->orderBy('created_at', 'desc')->paginate(10);
