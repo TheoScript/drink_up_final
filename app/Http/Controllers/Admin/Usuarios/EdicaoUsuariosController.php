@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin\Usuarios;
 
+use App\Http\Controllers\Controller;
 use App\Models\Usuario; // Certifique-se de que o Model está importado
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash; // Necessário para criptografar a senha

@@ -86,7 +86,7 @@ Route::prefix('admin')->middleware([AdminAutenticado::class])->name('admin.')->g
     // Rota para EXIBIR a tela de edição (GET) (/admin/usuarios/edicao)
     Route::get('/usuarios/{id}/editar', [EdicaoUsuariosController::class, 'edit'])->name('usuarios.edit');
 
-// Rota para SALVAR as edições no banco (PUT)(/admin/usuarios/edicao)
+    // Rota para SALVAR as edições no banco (PUT)(/admin/usuarios/edicao)
     Route::put('/usuarios/{id}', [EdicaoUsuariosController::class, 'update'])->name('usuarios.update');
 
     //Rota para Gerenciamento de Bebedouros

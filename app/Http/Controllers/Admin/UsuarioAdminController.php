@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Usuario; 
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class UsuarioAdminController extends Controller
 {
@@ -21,28 +20,27 @@ class UsuarioAdminController extends Controller
             $search = $request->input('search');
     
             $query->where(function($q) use ($search) {
-            // 1. Sempre pesquisa pelo nome
-            $q->where('nome', 'like', "%{$search}%");
-        
-            // 2. Só tenta pesquisar pelo ID se o texto digitado for um número
-            if (is_numeric($search)) {
-                $q->orWhere('id', $search);
-            }
-        });
-    }
+                // 1. Sempre pesquisa pelo nome
+                $q->where('nome', 'like', "%{$search}%");
+            
+                // 2. Só tenta pesquisar pelo ID se o texto digitado for um número
+                if (is_numeric($search)) {
+                    $q->orWhere('id', $search);
+                }
+            });
+        }
 
-        // Paginação mantendo os parâmetros da URL (para a busca não se perder ao trocar de página)
+        // Paginação mantendo os parâmetros da URL
         $usuarios = $query->orderBy('created_at', 'desc')->paginate(10);
         $usuarios->appends($request->all());
 
         // Métricas para os Cards Superiores
-       $dadosUsuarios = [
-        // Pega todos os usuários criados a partir das 00:00:00 de hoje no fuso de SP
-        'cadastrados_hoje' => Usuario::where('created_at', '>=', now()->startOfDay())->count(),
-        'acessos_iot' => Usuario::whereNotNull('rfid_uid')->count(),
-];
+        $dadosUsuarios = [
+            'cadastrados_hoje' => Usuario::where('created_at', '>=', now()->startOfDay())->count(),
+            'acessos_iot' => Usuario::whereNotNull('rfid_uid')->count(),
+        ];
 
-        // Retorna para a view do admin (Ajuste o caminho se sua pasta de views for diferente)
+        // Retorna para a view do admin
         return view('admin.usuariosAdmin', compact('usuarios', 'dadosUsuarios'));
     }
 
@@ -59,20 +57,22 @@ class UsuarioAdminController extends Controller
      */
     public function store(Request $request)
     {
+        // 1. Validação corrigida para a tabela 'usuarios'
         $validated = $request->validate([
             'nome' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:usuarios,email',
             'senha' => 'required|string|min:8',
-            'acesso_iot' => 'boolean'
+            'rfid_uid' => 'nullable|string|max:50|unique:usuarios,rfid_uid',
         ]);
 
-        // Define acesso_iot como false caso não seja enviado no formulário
-        $validated['acesso_iot'] = $request->has('acesso_iot');
-        $validated['password'] = bcrypt($validated['password']);
+        // 2. Criptografa a senha corretamente
+        $validated['senha'] = bcrypt($validated['senha']);
 
+        // 3. Salva no banco de dados
         Usuario::create($validated);
 
-        return redirect()->route('admin.usuarios')
+        // 4. Redireciona para a rota no singular ('admin.usuario')
+        return redirect()->route('admin.usuario')
                          ->with('success', 'Usuário criado com sucesso!');
     }
 
@@ -86,41 +86,6 @@ class UsuarioAdminController extends Controller
     }
 
     /**
-     * Mostra o formulário de edição do usuário.
-     */
-    public function edit($id)
-    {
-        $usuario = Usuario::findOrFail($id);
-        return view('admin.usuarios.edit', compact('usuario'));
-    }
-
-    /**
-     * Atualiza os dados de um usuário existente.
-     */
-    public function update(Request $request, $id)
-    {
-        $usuario = Usuario::findOrFail($id);
-
-        $validated = $request->validate([
-            'nome' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $usuario->id,
-            'acesso_iot' => 'boolean'
-        ]);
-
-        $validated['acesso_iot'] = $request->has('acesso_iot');
-
-        // Se a senha for preenchida, atualiza. Caso contrário, mantém a atual.
-        if ($request->filled('password')) {
-            $validated['password'] = bcrypt($request->password);
-        }
-
-        $usuario->update($validated);
-
-        return redirect()->route('admin.usuarios')
-                         ->with('success', 'Usuário atualizado com sucesso!');
-    }
-
-    /**
      * Remove o usuário do banco de dados.
      */
     public function destroy($id)
@@ -128,7 +93,7 @@ class UsuarioAdminController extends Controller
         $usuario = Usuario::findOrFail($id);
         $usuario->delete();
 
-        return redirect()->route('admin.usuarios')
+        return redirect()->route('admin.usuario')
                          ->with('success', 'Usuário excluído com sucesso!');
     }
 }

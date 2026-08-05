@@ -247,7 +247,7 @@
             <td>
               <div class="actions">
                 <!-- Botão Editar -->
-                <a href="{{ route('usuarios.edit', $user->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                <a href="{{ route('admin.usuarios.edit', $user->id) }}" class="btn btn-warning btn-sm">Editar</a>
                 
                 <!-- Botão Excluir -->
                 <form action="{{ route('usuarios.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este usuário?');" style="display:inline;">
