@@ -15,6 +15,12 @@ class IotBebedouroController extends Controller
      */
     public function receberConsumo(Request $request)
     {
+        $request->validate([
+        'mac_address' => 'required|string',
+        'volume'      => 'required|numeric|min:1',
+        'rfid'        => 'required|string'
+        ]);
+
         $mac = $request->input('mac_address');
         $volume = $request->input('volume');
         $rfid = $request->input('rfid');

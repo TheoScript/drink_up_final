@@ -146,7 +146,7 @@
         <!-- Nome -->
         <div class="form-group">
           <label class="form-label">Nome Completo</label>
-          <input type="text" name="nome" class="form-control" value="{{ old('nome', $usuario->nome) }}" required>
+          <input type="text" id="nome" name="nome" class="form-control" value="{{ old('nome', $usuario->nome) }}" required>
         </div>
 
         <!-- Senha -->
@@ -169,7 +169,7 @@
         <!-- RFID -->
         <div class="form-group">
           <label class="form-label">Código do Cartão (RFID UID)</label>
-          <input type="text" name="rfid_uid" class="form-control" value="{{ old('rfid_uid', $usuario->rfid_uid) }}" placeholder="Ex: A1B2C3D4">
+          <input type="text" id="rfid_uid" name="rfid_uid" class="form-control" value="{{ old('rfid_uid', $usuario->rfid_uid) }}" placeholder="Ex: A1B2C3D4">
           <div class="form-text">Usado para liberar o bebedouro IoT.</div>
         </div>
       </div>
