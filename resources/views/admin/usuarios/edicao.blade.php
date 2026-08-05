@@ -134,7 +134,19 @@
     <a href="{{ route('admin.usuario') }}" class="btn btn-secondary">← Voltar</a>
   </div>
 
-  <form action="{{ route('usuarios.update', $usuario->id) }}" method="POST">
+  <!-- Exibição de Erros de Validação se houver -->
+  @if ($errors->any())
+    <div style="background-color: var(--danger); color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+      <ul style="margin: 0; padding-left: 20px;">
+        @foreach ($errors->all() as $error)
+          <li>{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div>
+  @endif
+
+  <!-- ROTA DE ATUALIZAÇÃO -->
+  <form action="{{ route('admin.usuarios.update', $usuario->id) }}" method="POST">
     @csrf
     @method('PUT')
 
@@ -160,7 +172,6 @@
         <div class="form-group">
           <label class="form-label">Nível do Usuário</label>
           <select name="nivel" class="form-select" required>
-            <!-- Adapte 'admin' e 'usuario' para os valores reais do seu banco -->
             <option value="usuario" {{ old('nivel', $usuario->nivel) == 'usuario' ? 'selected' : '' }}>Usuário Comum</option>
             <option value="admin" {{ old('nivel', $usuario->nivel) == 'admin' ? 'selected' : '' }}>Administrador</option>
           </select>
@@ -175,7 +186,13 @@
       </div>
     </div>
 
-    <!-- CARD 2: SEGURANÇA E BLOQUEIOS -->
+    {{-- 
+    ========================================================================
+    RECURSO FUTURO: SEGURANÇA E BLOQUEIOS
+    Descomente esta seção quando criar as colunas 'is_blocked' e 'login_bloqueado'
+    na migration e no banco de dados.
+    ========================================================================
+
     <div class="card">
       <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 18px; color: var(--warning);">Segurança e Bloqueios</h3>
       
@@ -184,8 +201,8 @@
         <div class="form-group">
           <label class="form-label">Status da Conta</label>
           <select name="is_blocked" class="form-select">
-            <option value="0" {{ old('is_blocked', $usuario->is_blocked) == 0 ? 'selected' : '' }}>🟢 Ativa (Desbloqueado)</option>
-            <option value="1" {{ old('is_blocked', $usuario->is_blocked) == 1 ? 'selected' : '' }}>🔴 Suspensa (Bloqueado)</option>
+            <option value="0" {{ old('is_blocked', $usuario->is_blocked ?? 0) == 0 ? 'selected' : '' }}>🟢 Ativa (Desbloqueado)</option>
+            <option value="1" {{ old('is_blocked', $usuario->is_blocked ?? 0) == 1 ? 'selected' : '' }}>🔴 Suspensa (Bloqueado)</option>
           </select>
           <div class="form-text">Impede o usuário de acessar tanto o sistema web quanto o bebedouro.</div>
         </div>
@@ -194,13 +211,14 @@
         <div class="form-group">
           <label class="form-label">Status de Login Web</label>
           <select name="login_bloqueado" class="form-select">
-            <option value="0" {{ old('login_bloqueado', $usuario->login_bloqueado) == 0 ? 'selected' : '' }}>🔓 Livre para logar</option>
-            <option value="1" {{ old('login_bloqueado', $usuario->login_bloqueado) == 1 ? 'selected' : '' }}>🔒 Bloqueado por tentativas</option>
+            <option value="0" {{ old('login_bloqueado', $usuario->login_bloqueado ?? 0) == 0 ? 'selected' : '' }}>🔓 Livre para logar</option>
+            <option value="1" {{ old('login_bloqueado', $usuario->login_bloqueado ?? 0) == 1 ? 'selected' : '' }}>🔒 Bloqueado por tentativas</option>
           </select>
           <div class="form-text">Mude para "Livre" caso o usuário tenha errado a senha muitas vezes.</div>
         </div>
       </div>
     </div>
+    --}}
 
     <!-- BOTÃO DE SALVAR -->
     <div style="text-align: right;">
