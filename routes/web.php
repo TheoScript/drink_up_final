@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\ConfiguracaoController;
 use App\Http\Controllers\Admin\RelatorioController;
 use App\Http\Controllers\Admin\UsuarioAdminController;
 use App\Http\Controllers\Admin\BebedourosAdminController;
+use App\Http\Controllers\Admin\Usuarios\EdicaoUsuariosController;
 
 
 // =======================================================
@@ -79,8 +80,14 @@ Route::prefix('admin')->middleware([AdminAutenticado::class])->name('admin.')->g
     // Relatórios (/admin/relatorios)
     Route::get('/relatorios', [RelatorioController::class, 'index'])->name('relatorios');
 
-    // ROTA PARA O GERENCIAMENTO DE USUÁRIOS
+    // ROTA PARA O GERENCIAMENTO DE USUÁRIOS (/admin/usuarios)
     Route::get('usuario', [UsuarioAdminController::class, 'index'])->name('usuario');
+
+    // Rota para EXIBIR a tela de edição (GET) (/admin/usuarios/edicao)
+    Route::get('/usuarios/{id}/editar', [EdicaoUsuariosController::class, 'edit'])->name('usuarios.edit');
+
+// Rota para SALVAR as edições no banco (PUT)(/admin/usuarios/edicao)
+    Route::put('/usuarios/{id}', [EdicaoUsuariosController::class, 'update'])->name('usuarios.update');
 
     //Rota para Gerenciamento de Bebedouros
     Route::get('/bebedouros', [BebedourosAdminController::class, 'index'])->name('bebedouros');
