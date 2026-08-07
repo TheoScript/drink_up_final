@@ -83,17 +83,16 @@ $labelsGraficoBarra = [];
         }
 
         // 3. ATIVIDADES RECENTES
-        $atividadesBanco = RegistroAgua::with('usuario')
-            ->orderBy('data_registro', 'desc')
+        $atividadesBanco = RegistroAgua::orderBy('data_registro', 'desc')
             ->take(3)
             ->get();
 
         $atividadesRecentes = [];
         foreach ($atividadesBanco as $registro) {
             $atividadesRecentes[] = [
-                'texto' => ($registro->usuario->nome ?? 'Usuário') . " bebeu " . $registro->quantidade_ml . "ml",
+                'texto' => "Acionamento realizado (" . $registro->quantidade_ml . "ml)",
                 'tempo' => $registro->data_registro->diffForHumans() 
-            ];
+            ];  
         }
 
         if (empty($atividadesRecentes)) {
